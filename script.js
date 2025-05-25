@@ -70,24 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
             badgesContainer.innerHTML = ''; // Clear any loading messages
 
             badges.forEach(badge => {
-                const badgeCard = document.createElement('div');
-                badgeCard.className = 'badge-card';
-                
-                badgeCard.innerHTML = `
-                    <div class="badge-image">
-                        <img src="${getBadgeImageUrl(badge)}" alt="${getBadgeName(badge)}">
-                    </div>
-                    <div class="badge-content">
-                        <h3>${getBadgeName(badge)}</h3>
-                        <p class="badge-description">${getBadgeDescription(badge)}</p>
-                        <p class="issued-info"><strong>Issued by:</strong> ${getBadgeIssuer(badge)}</p>
-                        <p class="issued-info"><strong>Issued on:</strong> ${getBadgeIssueDate(badge)}</p>
-                        <div class="skills-list">
-                            ${getBadgeSkills(badge).split(', ').map(skill => `<span class='skill-bubble'>${skill}</span>`).join('')}
-                        </div>
-                    </div>
-                `;
-                
+                const badgeCard = createBadgeCard(badge);
                 badgesContainer.appendChild(badgeCard);
             });
         } catch (error) {
@@ -98,6 +81,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
         }
+    }
+
+    function createBadgeCard(badge) {
+        const card = document.createElement('div');
+        card.className = 'badge-card';
+        
+        card.innerHTML = `
+            <div class="badge-image">
+                <img src="${getBadgeImageUrl(badge)}" alt="${getBadgeName(badge)}" class="badge-img">
+            </div>
+            <div class="badge-content">
+                <h3 class="badge-title">${getBadgeName(badge)}</h3>
+                <div class="badge-expanded">
+                    <p class="badge-description">${getBadgeDescription(badge)}</p>
+                    <div class="skills-list">
+                        ${getBadgeSkills(badge).split(', ').map(skill => 
+                            `<span class="skill-bubble">${skill}</span>`
+                        ).join('')}
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        return card;
     }
 
     // Initialize badges display
